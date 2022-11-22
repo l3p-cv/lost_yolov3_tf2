@@ -1,3 +1,11 @@
+*.parquet
+checkpoints
+log
+mAP
+train_images 
+model_data/*.txt
+coco_names.txt 
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
