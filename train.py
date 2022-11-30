@@ -26,6 +26,7 @@ from evaluate_mAP import get_mAP
 if YOLO_TYPE == "yolov4":
     Darknet_weights = YOLO_V4_TINY_WEIGHTS if TRAIN_YOLO_TINY else YOLO_V4_WEIGHTS
 if YOLO_TYPE == "yolov3":
+    
     Darknet_weights = YOLO_V3_TINY_WEIGHTS if TRAIN_YOLO_TINY else YOLO_V3_WEIGHTS
 if TRAIN_YOLO_TINY: TRAIN_MODEL_NAME += "_Tiny"
 
