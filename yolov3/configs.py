@@ -19,7 +19,7 @@ YOLO_V4_TINY_WEIGHTS        = "./model_data/yolov4-tiny.weights"
 YOLO_TRT_QUANTIZE_MODE      = "INT8" # INT8, FP16, FP32
 YOLO_CUSTOM_WEIGHTS         = True # "checkpoints/yolov3_custom" # used in evaluate_mAP.py and custom model detection, if not using leave False
                             # YOLO_CUSTOM_WEIGHTS also used with TensorRT and custom model detection
-YOLO_COCO_CLASSES           = "./model_data/coco/coco.names"
+YOLO_COCO_CLASSES           = "./model_data/coco/coco_names.json"
 YOLO_STRIDES                = [8, 16, 32]
 YOLO_IOU_LOSS_THRESH        = 0.5
 YOLO_ANCHOR_PER_SCALE       = 3
@@ -37,12 +37,12 @@ if YOLO_TYPE                == "yolov3":
 TRAIN_YOLO_TINY             = True
 TRAIN_SAVE_BEST_ONLY        = True # saves only best model according validation loss (True recommended)
 TRAIN_SAVE_CHECKPOINT       = False # saves all best validated checkpoints in training process (may require a lot disk space) (False recommended)
-TRAIN_CLASSES               = "./model_data/marvel_names.txt"
-TRAIN_ANNOT_PATH            = "./model_data/marvel_train.txt"
-IMG_PATH                    = "/home/dgacon/Dokumente/02_Projekt/00_projekt_daten/00_Images/train_tiny_yolo/init_train/"
-ANNO_DATA_PATH              = "marvel_step_4.parquet"
-TRAIN_LOGDIR                = "./log"
-TRAIN_CHECKPOINTS_FOLDER    = "./checkpoints"
+TRAIN_CLASSES               = "path/to/anno_data.json"
+TRAIN_ANNOT_PATH            = "path/to/model_train.txt"
+TRAIN_IMG_PATH              = "/path/to/image_dataset/"
+TRAIN_ANNO_DATA_PATH        = "path/to/anno_data.parquet"
+TRAIN_LOGDIR                = "log"
+TRAIN_CHECKPOINTS_FOLDER    = "checkpoints"
 TRAIN_MODEL_NAME            = f"{YOLO_TYPE}_custom"
 TRAIN_LOAD_IMAGES_TO_RAM    = True # With True faster training, but need more RAM
 TRAIN_BATCH_SIZE            = 4
@@ -53,10 +53,10 @@ TRAIN_FROM_CHECKPOINT       = True # "checkpoints/yolov3_custom"
 TRAIN_LR_INIT               = 1e-4
 TRAIN_LR_END                = 1e-6
 TRAIN_WARMUP_EPOCHS         = 2
-TRAIN_EPOCHS                = 300
+TRAIN_EPOCHS                = 200
 
 # TEST options
-TEST_ANNOT_PATH             = "./model_data/marvel_test.txt"
+TEST_ANNOT_PATH             = "path/to/model_test.txt"
 TEST_BATCH_SIZE             = 4
 TEST_INPUT_SIZE             = 416
 TEST_DATA_AUG               = False
@@ -71,4 +71,4 @@ if TRAIN_YOLO_TINY:
                                [[81,  82], [135, 169], [344, 319]]]
     
 # Modeloptions
-MODEL_PATH                  = "/home/dgacon/server/docs/model_repo/detection/tiny_yolo_v4_marvel/"
+MODEL_PATH                  = "path/to/repo/model_name/"

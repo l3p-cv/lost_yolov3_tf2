@@ -10,6 +10,7 @@
 #================================================================
 import numpy as np
 import tensorflow as tf
+import json
 from tensorflow.keras.layers import Conv2D, Input, LeakyReLU, ZeroPadding2D, BatchNormalization, MaxPool2D
 from tensorflow.keras.regularizers import l2
 from yolov3.configs import *
@@ -17,12 +18,18 @@ from yolov3.configs import *
 STRIDES         = np.array(YOLO_STRIDES)
 ANCHORS         = (np.array(YOLO_ANCHORS).T/STRIDES).T
 
+def jsonKeys2int(x):
+    if isinstance(x, dict):
+            return {int(k):v for k,v in x.items()}
+    return x
+
 def read_class_names(class_file_name):
-    # loads class name from a file
-    names = {}
-    with open(class_file_name, 'r') as data:
-        for ID, name in enumerate(data):
-            names[ID] = name.strip('\n')
+    # loads class name from a json file
+    
+    with open(class_file_name, 'r') as fp:
+        names = json.load(fp)
+    
+    names = jsonKeys2int(names)
     return names
 
 class BatchNormalization(BatchNormalization):

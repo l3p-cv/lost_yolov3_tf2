@@ -10,7 +10,6 @@
 #================================================================
 import os
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
-import cv2
 import numpy as np
 import tensorflow as tf
 from tensorflow.python.saved_model import tag_constants
