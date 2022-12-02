@@ -69,22 +69,22 @@ To train your model, edit the [config.py](yolov3/configs.py)
 ![configs.py](Images/config_train_yolo.png)
 
 * [line 40:](yolov3/configs.py#L40) Path and name of the train classes json file.
-* [line 41:](yolov3/configs.py#L41) Path and name of model training data. This file and directory is creating by [convert_parquet_to_yolo.py](convert_parquet_to_yolo.py) and will call to train the model
+* [line 41:](yolov3/configs.py#L41) Path and name of model training data. This file and directory is creating <br> by [convert_parquet_to_yolo.py](convert_parquet_to_yolo.py) and will call to train the model
 * [line 42:](yolov3/configs.py#L42) Path of the image dataset
 * [line 43:](yolov3/configs.py#L43) Path of annotation data parquet file. Create this folder for all your annotation parquet files.
 * [line 51:](yolov3/configs.py#L51) If it is the first training of the model set it true else false
 * [line 52:](yolov3/configs.py#L52) If it is the first training of the model set it false else true
 * [line 56:](yolov3/configs.py#L56) Choose the number of training epochs.
-* [line 59:](yolov3/configs.py#L59) Path and name of model test data. This file and directory is creating by [convert_parquet_to_yolo.py](convert_parquet_to_yolo.py) and will call to validate the model after training
+* [line 59:](yolov3/configs.py#L59) Path and name of model test data. This file and directory is creating <br> by [convert_parquet_to_yolo.py](convert_parquet_to_yolo.py) and will call to validate the model after training
 * [line 74:](yolov3/configs.py#L59) Path of your model repo. The target folder has to be the name of your model.
 
 ## Training process
 
 1. download anno_data.json and anno_data.parquet from [lost_semi_auto_pipes](https://github.com/l3p-cv/lost_semi_auto_pipes)
 2. load anno_data.json into your choosen [directory](yolov3/configs.py#L40)
+   * you only have to update the anno data json if there is a change since the last training
 3. load or add your anno_data.parquet into your created [directory](yolov3/configs.py#L43)
 4. run [convert_parquet_to_yolo.py](convert_parquet_to_yolo.py)
-   * you only have to update the anno data json if there is a change since the last training
    * builds a list of all anno data parquet in the directory
    * train.txt and test.txt will created
 5. run [train.py](train.py)
