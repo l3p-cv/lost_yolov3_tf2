@@ -53,6 +53,7 @@ directory structure:
 │   ├── utils.py
 │   ├── yolov3.py
 │   └── yolov4.py
+├── Changelog.md
 ├── LICENSE
 ├── README.md
 ├── convert_parquet_to_yolo.py
@@ -80,7 +81,7 @@ To train your model, edit the [config.py](yolov3/configs.py)
 
 ## Training process
 
-1. download anno_data.json and anno_data.parquet from [lost_semi_auto_pipes](https://github.com/l3p-cv/lost_semi_auto_pipes)
+1. download anno_data.json and anno_data.parquet from data export of ["tiny_yolo_triton_sia_loop"](https://github.com/l3p-cv/lost_semi_auto_pipes/blob/main/README.md#tiny_yolo_triton_sia_loop) pipeline
 2. load anno_data.json into your choosen [directory](yolov3/configs.py#L40)
    * you only have to update the anno data json if there is a change since the last training
 3. load or add your anno_data.parquet into your created [directory](yolov3/configs.py#L43)
