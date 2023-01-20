@@ -4,6 +4,7 @@ log
 mAP
 train_images 
 model_data/*.txt
+model_data/*json
 coco_names.txt
 train_classes.json
 anno_data

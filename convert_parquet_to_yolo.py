@@ -1,11 +1,12 @@
 import lost_ds as lds
 import os
+import json
 
 from yolov3.configs import *
 from yolov3.yolov4 import read_class_names
 
 def write_data_txt(path, ds):
-    with open(path, "w") as file:           
+    with open(path, "a") as file:           
         for imgpath in ds.groupby('img_path'):
             line = ''
             line += imgpath[0]
@@ -36,13 +37,32 @@ ds = lds.LOSTDataset(lds.remap_img_path(init_ds.df,
                                         col='img_path'))
     
 ds.remove_empty(inplace=True)
+ds.df = ds.df[ds.df['anno_lbl'] != '']
 
 # convert from xcycwh rel to x1y1x2y2 abs
 ds.df = lds.transform_bbox_style('x1y1x2y2', ds.df)
 ds.df = lds.to_abs(ds.df)
 
 # validation set is not needed
-train, test, val = ds.split_by_img_path(0.2, 0.0)
+if TRAIN_IN_LOOPS:
+    if not os.path.isfile(TRAIN_ITER_FILE):
+        loop = 0
+        with open(TRAIN_ITER_FILE, 'w') as fp:
+                
+            iter_dict = {'iter': loop}
+            json.dump(iter_dict, fp)
+    else:
+        with open(TRAIN_ITER_FILE, 'r+') as fp:
+            iter_dict = json.load(fp)
+            loop = iter_dict['iter'] + 1    
+            iter_dict = {'iter': loop}
+            json.dump(iter_dict, fp)
+    
+    ds.df = ds.df[ds.df['img_iteration']==loop]
+    
+    train, test, val = ds.split_by_img_path(0.1, 0.0)
+else:    
+    train, test, val = ds.split_by_img_path(0.2, 0.0)
 
 # get classes
 train_classes_dict = read_class_names(TRAIN_CLASSES)
