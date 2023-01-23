@@ -52,10 +52,11 @@ if TRAIN_IN_LOOPS:
             iter_dict = {'iter': loop}
             json.dump(iter_dict, fp)
     else:
-        with open(TRAIN_ITER_FILE, 'r+') as fp:
+        with open(TRAIN_ITER_FILE, 'r') as fp:
             iter_dict = json.load(fp)
             loop = iter_dict['iter'] + 1    
             iter_dict = {'iter': loop}
+        with open(TRAIN_ITER_FILE, 'w') as fp:
             json.dump(iter_dict, fp)
     
     ds.df = ds.df[ds.df['img_iteration']==loop]
