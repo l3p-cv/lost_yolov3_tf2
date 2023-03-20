@@ -9,3 +9,4 @@ pandas
 awscli
 urllib3
 mss
+lost-ds

@@ -1,6 +1,8 @@
 import lost_ds as lds
 import os
 import json
+import numpy as np
+import pandas as pd
 
 from yolov3.configs import *
 from yolov3.yolov4 import read_class_names
@@ -22,6 +24,33 @@ def write_data_txt(path, ds):
                 
             file.write(line+'\n')
             
+# calculate bbounding box from points
+def minmax(a):
+    x=[]
+    y=[]
+    for i,j in a:
+        x.append(i)
+        y.append(j)
+    return np.array([min(x), min(y), max(x), max(y)])
+
+def line_to_bbox(ds, loop):
+    bbox_df = ds.df[ds.df['anno_dtype'] == 'bbox']
+    line_df = ds.df[ds.df['anno_dtype'] == 'line']
+    line_df.reset_index(drop=True, inplace=True)
+
+
+    for i, xy in enumerate(line_df['anno_data']):
+        line_df.at[i,'anno_data'] = minmax(xy)
+        line_df.at[i,'anno_style'] = 'x1y1x2y2'
+        line_df.at[i,'anno_dtype'] = 'bbox'
+
+        ds.df = pd.concat([bbox_df, line_df])
+        ds.transform_bbox_style('xcycwh', inplace=True)
+
+        file = f'LOST_Annotation_{loop}.parquet'
+        ds.to_parquet(os.path.join(root, file))
+    return ds
+    
 # build list of parquets 
 anno_data = []
 
@@ -29,6 +58,7 @@ for root, _, files in os.walk(os.path.abspath(TRAIN_ANNO_DATA_PATH)):
     for file in files:
         if file.endswith(('.parquet')):
             anno_data.append(os.path.join(root, file))
+            
         
 init_ds = lds.LOSTDataset(anno_data)
 
@@ -43,7 +73,7 @@ ds.df = ds.df[ds.df['anno_lbl'] != '']
 ds.df = lds.transform_bbox_style('x1y1x2y2', ds.df)
 ds.df = lds.to_abs(ds.df)
 
-# validation set is not needed
+# for semitautomatic pipeline data
 if TRAIN_IN_LOOPS:
     if not os.path.isfile(TRAIN_ITER_FILE):
         loop = 0
@@ -60,10 +90,17 @@ if TRAIN_IN_LOOPS:
             json.dump(iter_dict, fp)
     
     ds.df = ds.df[ds.df['img_iteration']==loop]
+    ds_bbox = line_to_bbox(ds, loop)
     
-    train, test, val = ds.split_by_img_path(0.1, 0.0)
+    # validation set is not needed
+    train, test, val = ds_bbox.split_by_img_path(0.3, 0.0)
+
+# for pipeline data without iterations
 else:    
-    train, test, val = ds.split_by_img_path(0.2, 0.0)
+    ds_bbox = line_to_bbox(ds, loop='')
+    
+    # validation set is not needed
+    train, test, val = ds_bbox.split_by_img_path(0.2, 0.0)
 
 # get classes
 train_classes_dict = read_class_names(TRAIN_CLASSES)

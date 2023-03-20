@@ -7,7 +7,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [unreleased]
 
 ### Added
-* New stuff here
+* add lost-ds in requirements
+* add function line to bbox in convert_parquet_to_yolo.py
+  
+## [0.2.0] - 2023-03-20
+
+### Added
+* add CHANGELOG.md
   
 ## [0.1.0] - 2022-12-05
 

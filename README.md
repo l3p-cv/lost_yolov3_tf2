@@ -76,8 +76,8 @@ To train your model, edit the [config.py](yolov3/configs.py)
 * [line 51:](yolov3/configs.py#L51) If it is the first training of the model set it true else false
 * [line 52:](yolov3/configs.py#L52) If it is the first training of the model set it false else true
 * [line 56:](yolov3/configs.py#L56) Choose the number of training epochs.
-* [line 59:](yolov3/configs.py#L59) Path and name of model test data. This file and directory is creating <br> by [convert_parquet_to_yolo.py](convert_parquet_to_yolo.py) and will call to validate the model after training
-* [line 74:](yolov3/configs.py#L59) Path of your model repo. The target folder has to be the name of your model.
+* [line 61:](yolov3/configs.py#L59) Path and name of model test data. This file and directory is creating <br> by [convert_parquet_to_yolo.py](convert_parquet_to_yolo.py) and will call to validate the model after training
+* [line 76:](yolov3/configs.py#L59) Path of your model repo. The target folder has to be the name of your model.
 
 ## Training process
 
