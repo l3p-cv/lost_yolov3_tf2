@@ -138,3 +138,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+model_data/labels_loop_0.json
