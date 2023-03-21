@@ -33,9 +33,9 @@ def minmax(a):
         y.append(j)
     return np.array([min(x), min(y), max(x), max(y)])
 
-def line_to_bbox(ds, loop):
-    bbox_df = ds.df[ds.df['anno_dtype'] == 'bbox']
-    line_df = ds.df[ds.df['anno_dtype'] == 'line']
+def line_to_bbox(ds_anno, loop):
+    bbox_df = ds_anno.df[ds_anno.df['anno_dtype'] == 'bbox']
+    line_df = ds_anno.df[ds_anno.df['anno_dtype'] == 'line']
     line_df.reset_index(drop=True, inplace=True)
 
 
@@ -44,11 +44,11 @@ def line_to_bbox(ds, loop):
         line_df.at[i,'anno_style'] = 'x1y1x2y2'
         line_df.at[i,'anno_dtype'] = 'bbox'
 
-        ds.df = pd.concat([bbox_df, line_df])
-        ds.transform_bbox_style('xcycwh', inplace=True)
+    ds.df = pd.concat([bbox_df, line_df])
+    ds.transform_bbox_style('xcycwh', inplace=True)
 
-        file = f'LOST_Annotation_{loop}.parquet'
-        ds.to_parquet(os.path.join(root, file))
+    file = f'LOST_Annotation_{loop}.parquet'
+    ds.to_parquet(os.path.join(root, file))
     return ds
     
 # build list of parquets 
@@ -69,10 +69,6 @@ ds = lds.LOSTDataset(lds.remap_img_path(init_ds.df,
 ds.remove_empty(inplace=True)
 ds.df = ds.df[ds.df['anno_lbl'] != '']
 
-# convert from xcycwh rel to x1y1x2y2 abs
-ds.df = lds.transform_bbox_style('x1y1x2y2', ds.df)
-ds.df = lds.to_abs(ds.df)
-
 # for semitautomatic pipeline data
 if TRAIN_IN_LOOPS:
     if not os.path.isfile(TRAIN_ITER_FILE):
@@ -92,12 +88,21 @@ if TRAIN_IN_LOOPS:
     ds.df = ds.df[ds.df['img_iteration']==loop]
     ds_bbox = line_to_bbox(ds, loop)
     
+    
+    # convert from xcycwh rel to x1y1x2y2 abs
+    ds_bbox.df = lds.transform_bbox_style('x1y1x2y2', ds_bbox.df)
+    ds_bbox.df = lds.to_abs(ds_bbox.df)
+    
     # validation set is not needed
     train, test, val = ds_bbox.split_by_img_path(0.3, 0.0)
 
 # for pipeline data without iterations
 else:    
     ds_bbox = line_to_bbox(ds, loop='')
+    
+    # convert from xcycwh rel to x1y1x2y2 abs
+    ds_bbox.df = lds.transform_bbox_style('x1y1x2y2', ds_bbox.df)
+    ds_bbox.df = lds.to_abs(ds_bbox.df)
     
     # validation set is not needed
     train, test, val = ds_bbox.split_by_img_path(0.2, 0.0)
