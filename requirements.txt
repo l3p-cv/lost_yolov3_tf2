@@ -1,4 +1,3 @@
-numpy>=1.18.2
 scipy>=1.4.1
 wget>=3.2
 seaborn>=0.10.0
@@ -10,3 +9,8 @@ awscli
 urllib3
 mss
 lost-ds
+pyarrow
+scikit-learn
+shapely
+fsspec
+numpy==1.23
