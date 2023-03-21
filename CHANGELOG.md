@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+### Fixed
+* fixed line to bbox
+* default train transfer
+* add requirements
+  
+## [0.2.1] - 2023-03-21
+
 ### Added
 * add lost-ds in requirements
 * add function line to bbox in convert_parquet_to_yolo.py
