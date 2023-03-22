@@ -45,7 +45,7 @@ TRAIN_LOGDIR                = "log"
 TRAIN_CHECKPOINTS_FOLDER    = "checkpoints"
 TRAIN_MODEL_NAME            = f"{YOLO_TYPE}_custom"
 TRAIN_LOAD_IMAGES_TO_RAM    = True # With True faster training, but need more RAM
-TRAIN_BATCH_SIZE            = 4
+TRAIN_BATCH_SIZE            = 2
 TRAIN_INPUT_SIZE            = 416
 TRAIN_DATA_AUG              = True
 TRAIN_TRANSFER              = True
@@ -53,7 +53,7 @@ TRAIN_FROM_CHECKPOINT       = False # "checkpoints/yolov3_custom"
 TRAIN_LR_INIT               = 1e-4
 TRAIN_LR_END                = 1e-6
 TRAIN_WARMUP_EPOCHS         = 2
-TRAIN_EPOCHS                = 200
+TRAIN_EPOCHS                = 100
 TRAIN_IN_LOOPS              = True
 TRAIN_ITER_FILE             = 'model_data/last_iter.json'
 
