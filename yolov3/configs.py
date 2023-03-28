@@ -8,6 +8,7 @@
 #   Description : yolov3 configuration file
 #
 #================================================================
+import os
 
 # YOLO options
 YOLO_TYPE                   = "yolov4" # yolov4 or yolov3

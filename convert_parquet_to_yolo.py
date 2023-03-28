@@ -94,7 +94,7 @@ if TRAIN_IN_LOOPS:
     ds_bbox.df = lds.to_abs(ds_bbox.df)
     
     # validation set is not needed
-    train, test, val = ds_bbox.split_by_img_path(0.3, 0.0)
+    train, test, val = ds_bbox.split_by_img_path(0.2, 0.0)
 
 # for pipeline data without iterations
 else:    
